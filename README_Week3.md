@@ -69,10 +69,10 @@ Encrypted file → extract hash (pdf2john) → crack hash offline (John the Ripp
 
 The target file, `My-Locked-PDF1.pdf` (65.2 KB), was uploaded to the **Hash Calculator** tool. Since the tool detected the PDF was encrypted, it automatically extracted a crackable hash in `pdf2john` / hashcat-compatible format — entirely client-side, with nothing uploaded to a server.
 
-![Hash Calculator tool landing page](screenshots/01-hash-calculator-tool.png)
+![Hash Calculator tool landing page]
 *The Hash Calculator tool — generates MD5/SHA hashes from text or files, and extracts crackable hashes from password-protected PDFs.*
 
-![Hash extracted from the locked PDF](screenshots/02-hash-calculator-pdf-upload.png)
+![Hash extracted from the locked PDF]
 *`My-Locked-PDF1.pdf` uploaded and parsed locally — the tool confirms the PDF is encrypted and outputs the extracted `$pdf$...` hash, ready to copy into a cracking tool.*
 
 **Extracted hash:**
@@ -84,10 +84,10 @@ $pdf$4*4*128*-1060*1*16*55d1a5c14175da449753199e44971d32*32*777fd021a7f3c5ae598c
 
 The extracted hash was pasted into the **Password Cracker (Dictionary Attack Lab)** tool, which hashes every word in a wordlist and compares it against the target hash — the exact same logic John the Ripper uses internally.
 
-![Password Cracker running through wordlist, 30/100 tried](screenshots/03-password-cracker-progress.png)
+![Password Cracker running through wordlist, 30/100 tried]
 *The dictionary attack in progress — 30 of 100 candidate passwords tried, hashing each one and comparing it against the extracted PDF hash.*
 
-![Password Cracker successfully matches the password](screenshots/04-password-cracker-success.png)
+![Password Cracker successfully matches the password]
 *Match found at attempt 91/100 — the tool confirms `PASSWORD CRACKED SUCCESSFULLY` with the recovered password.*
 
 **Result:** the PDF's password was recovered as **`password1`** — a password that appears in virtually every common password wordlist, which is exactly why it fell so quickly.
@@ -96,10 +96,10 @@ The extracted hash was pasted into the **Password Cracker (Dictionary Attack Lab
 
 The recovered password was entered into the PDF viewer's password prompt to unlock the file.
 
-![Entering the recovered password into the PDF's password prompt](screenshots/05-pdf-password-entry.png)
+![Entering the recovered password into the PDF's password prompt]
 *The cracked password entered into the "Password required" prompt for `My-Locked-PDF1.pdf`.*
 
-![Flag captured after successfully unlocking the PDF](screenshots/06-flag-captured.png)
+![Flag captured after successfully unlocking the PDF]
 *The unlocked PDF confirming success and revealing the training flag: `nw{networkwalks_flag1_jtr_270521_1}`.*
 
 ---
@@ -112,20 +112,20 @@ To connect the browser simulation to the actual tool used in the field, the same
 
 Since `pdf2john.pl` (bundled with John the Ripper on Kali) performs this extraction locally, the **Online HashCrack PDF Hash Extractor** was used here as an accessible equivalent — it runs the same `pdf2john` logic server-side and confirms uploaded files are deleted immediately.
 
-![PDF Hash Extractor tool landing page](screenshots/09-onlinehashcrack-intro.png)
+![PDF Hash Extractor tool landing page]
 *Online HashCrack's PDF Hash Extractor — built on pdf2john, converts a PDF directly into a crackable hash format.*
 
-![PDF hash extracted, matching the Hash Calculator's output](screenshots/10-onlinehashcrack-hash-output.png)
+![PDF hash extracted, matching the Hash Calculator's output]
 *`My-Locked-PDF1.pdf` uploaded and converted, producing the identical `$pdf$...` hash seen in Method 1 — confirming both extraction methods are equivalent.*
 
 ### Step 2. Load the Hash into Johnny (GUI for John the Ripper)
 
 The extracted hash was saved to a text file (`hash1.txt`) and opened directly in Johnny.
 
-![Opening the extracted hash file in Johnny](screenshots/07-johnny-open-hash-file.png)
+![Opening the extracted hash file in Johnny]
 *Johnny's Open dialog, selecting `hash1.txt` from the Downloads folder alongside the John the Ripper installation files.*
 
-![Hash successfully loaded into Johnny, ready to crack](screenshots/08-johnny-hash-loaded.png)
+![Hash successfully loaded into Johnny, ready to crack]
 *The hash loaded into Johnny's password list, correctly identified with Format: **PDF**, ready for a dictionary or brute-force attack to be started.*
 
 **Outcome:** with the hash loaded and format auto-detected as `PDF`, Johnny is ready to run the identical dictionary attack against the real John the Ripper engine — the same recovery (`password1`) that the browser tool already demonstrated.
